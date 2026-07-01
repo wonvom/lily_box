@@ -19,8 +19,6 @@ EXPECTED_SKILLS = {
     "national-pension-workplace",
     "nts-tax-delinquency",
     "fsc-corporate-info",
-    "g2b-sanctioned-supplier",
-    "g2b-order-plan-search",
     "localdata-business-status",
     "kstartup-search",
     "olive-young-search",

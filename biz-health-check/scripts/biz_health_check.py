@@ -9,7 +9,6 @@
 - nts-business-registration   상태조회        (Lily Box proxy)
 - national-pension-workplace  국민연금 사업장  (Lily Box proxy)
 - fsc-corporate-info          금융위 법인개요  (Lily Box proxy)
-- g2b-sanctioned-supplier     부정당제재       (Lily Box proxy)
 - nts-tax-delinquency         체납 명단        (무인증 직접)
 - localdata-business-status   인허가 영업상태  (무인증 직접, --region 필요)
 
@@ -35,7 +34,6 @@ _SIBLINGS = {
     "nts_status": ("국세청 사업자등록 상태", "nts-business-registration", "nts_business_registration.py"),
     "national_pension": ("국민연금 가입 사업장", "national-pension-workplace", "national_pension_workplace.py"),
     "fsc_corp": ("금융위 기업기본정보", "fsc-corporate-info", "fsc_corporate_info.py"),
-    "g2b_sanction": ("조달청 부정당제재", "g2b-sanctioned-supplier", "g2b_sanctioned_supplier.py"),
     "tax_delinquency": ("국세 체납 명단공개", "nts-tax-delinquency", "nts_tax_delinquency.py"),
     "localdata": ("지방행정 인허가 영업상태", "localdata-business-status", "localdata_business_status.py"),
 }
@@ -113,10 +111,6 @@ def run(b_no: str | None, name: str | None = None, region: str | None = None,
         lambda m: m.query_corp_outline(name, no, base_url=base_url)) if name else \
         _unavailable("fsc_corp", "법인명(--name)이 없어 금융위 조회 생략.")
 
-    sections["g2b_sanction"] = _section(
-        "g2b_sanction", lambda m: m.query_sanctions(no, base_url=base_url)) if no else \
-        _unavailable("g2b_sanction", "사업자등록번호가 없어 부정당제재 조회 생략.")
-
     sections["tax_delinquency"] = _section(
         "tax_delinquency", lambda m: m.lookup(name)) if name else \
         _unavailable("tax_delinquency", "상호(--name)가 없어 체납 명단 조회 생략.")
@@ -137,7 +131,7 @@ def run(b_no: str | None, name: str | None = None, region: str | None = None,
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="사업자 실사 복합 조회 (단품 lily-box 6종 묶음)")
+    parser = argparse.ArgumentParser(description="사업자 실사 복합 조회 (단품 lily-box 5종 묶음)")
     parser.add_argument("b_no", nargs="?", default=None, help="사업자등록번호 10자리(하이픈 허용)")
     parser.add_argument("--name", help="상호·법인명 — 국민연금/금융위/체납/인허가 조회에 필요")
     parser.add_argument("--region", help="시군구 (동네 사업장 인허가 조회용 — 예: 제주제주시)")

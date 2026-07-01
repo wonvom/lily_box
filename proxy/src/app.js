@@ -39,14 +39,6 @@ const {
   normalizeFscCorpQuery
 } = require("./providers/fsc-corp");
 const {
-  fetchG2bSanctions,
-  normalizeG2bSanctionQuery
-} = require("./providers/g2b-sanction");
-const {
-  fetchG2bOrderPlans,
-  normalizeG2bOrderPlanQuery
-} = require("./providers/g2b-order-plan");
-const {
   isKstartupErrorBody,
   normalizeKstartupQuery,
   proxyKstartupRequest
@@ -377,22 +369,6 @@ function buildApp({
     route: "fsc-corp-outline",
     normalizer: normalizeFscCorpQuery,
     fetcher: fetchFscCorpOutline,
-    request,
-    reply
-  }));
-
-  app.get("/v1/g2b/sanctioned-supplier", async (request, reply) => handleKeyedLookup({
-    route: "g2b-sanctioned-supplier",
-    normalizer: normalizeG2bSanctionQuery,
-    fetcher: fetchG2bSanctions,
-    request,
-    reply
-  }));
-
-  app.get("/v1/g2b/order-plans", async (request, reply) => handleKeyedLookup({
-    route: "g2b-order-plans",
-    normalizer: normalizeG2bOrderPlanQuery,
-    fetcher: fetchG2bOrderPlans,
     request,
     reply
   }));

@@ -24,7 +24,7 @@ export LILY_BOX_PROXY_BASE_URL=http://127.0.0.1:4020
 - `LAW_OC`: Korean law Open API OC value.
 - `SEOUL_OPEN_API_KEY`: Seoul subway realtime arrival API.
 - `KMA_OPEN_API_KEY`: KMA short-term forecast API.
-- `DATA_GO_KR_API_KEY`: data.go.kr services for real estate, NTS business status, National Pension, FSC corporate info, G2B, and K-Startup.
+- `DATA_GO_KR_API_KEY`: data.go.kr services for real estate, NTS business status, National Pension, FSC corporate info, and K-Startup.
 
 Optional server settings:
 
@@ -48,8 +48,6 @@ Optional server settings:
 - `POST /v1/nts-business/validate`
 - `GET /v1/national-pension/workplace`
 - `GET /v1/fsc/corp-outline`
-- `GET /v1/g2b/sanctioned-supplier`
-- `GET /v1/g2b/order-plans`
 - `GET /v1/kstartup/business-info`
 - `GET /v1/kstartup/announcements`
 - `GET /v1/kstartup/contents`

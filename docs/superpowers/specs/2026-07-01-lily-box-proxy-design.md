@@ -21,8 +21,6 @@ The proxy will expose only the routes needed by the selected Lily Box skills:
 - `POST /v1/nts-business/validate`
 - `GET /v1/national-pension/workplace`
 - `GET /v1/fsc/corp-outline`
-- `GET /v1/g2b/sanctioned-supplier`
-- `GET /v1/g2b/order-plans`
 - `GET /v1/kstartup/business-info`
 - `GET /v1/kstartup/announcements`
 - `GET /v1/kstartup/contents`
