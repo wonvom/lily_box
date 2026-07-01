@@ -6,7 +6,7 @@ It keeps only the skills I actually want to use:
 
 - Naver blog, Naver news, and GeekNews research
 - Korean real estate transaction, land price, and registry workflows
-- Korean law, privacy policy, terms, and business due diligence workflows
+- Korean law and business due diligence workflows
 - Shopping, secondhand marketplace, parcel, weather, and Seoul subway lookups
 
 ## Included Skills
@@ -16,9 +16,7 @@ It keeps only the skills I actually want to use:
 - `geeknews-search`
 - `real-estate-search`
 - `gongsijiga-search`
-- `iros-registry-automation`
 - `korean-law-search`
-- `korean-privacy-terms`
 - `nts-business-registration`
 - `biz-health-check`
 - `national-pension-workplace`
@@ -27,7 +25,6 @@ It keeps only the skills I actually want to use:
 - `localdata-business-status`
 - `kstartup-search`
 - `olive-young-search`
-- `daiso-product-search`
 - `ohou-today-deal`
 - `bunjang-search`
 - `daangn-used-goods-search`
