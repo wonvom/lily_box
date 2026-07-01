@@ -1,0 +1,15 @@
+k?skill/
+.DS_Store
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.cache/
+dist/
+build/
+.env
+.env.*
+!.env.example
+*.log
+downloads/
+tmp/
