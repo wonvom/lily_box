@@ -45,7 +45,7 @@ metadata:
 
 ## Default path
 
-`gongsijiga-search` npm 패키지를 직접 호출한다. realtyprice.kr는 API 키가 필요 없는 공개 엔드포인트이므로 hosted proxy를 경유하지 않는다.
+`gongsijiga-search` npm 패키지를 직접 호출한다. realtyprice.kr는 API 키가 필요 없는 공개 엔드포인트이므로 프록시를 경유하지 않는다.
 
 설치:
 

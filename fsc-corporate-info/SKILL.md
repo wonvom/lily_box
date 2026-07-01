@@ -1,6 +1,6 @@
 ---
 name: fsc-corporate-info
-description: 금융위원회 기업기본정보(법인 개요)를 공공데이터포털 API(hosted proxy 경유)로 조회한다. 법인명으로 대표자·설립일·업종 등 법인 개요를 확인하고, 응답에 사업자번호가 있으면 입력 번호와 교차검증한다.
+description: 금융위원회 기업기본정보(법인 개요)를 공공데이터포털 API(Lily Box proxy 경유)로 조회한다. 법인명으로 대표자·설립일·업종 등 법인 개요를 확인하고, 응답에 사업자번호가 있으면 입력 번호와 교차검증한다.
 license: MIT
 metadata:
   category: business
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-공공데이터포털의 **금융위원회_기업기본정보 서비스**(data.go.kr 15043184, `getCorpOutline_V2`)를 hosted proxy 경유로 호출해 법인 개요를 조회한다.
+공공데이터포털의 **금융위원회_기업기본정보 서비스**(data.go.kr 15043184, `getCorpOutline_V2`)를 Lily Box proxy 경유로 호출해 법인 개요를 조회한다.
 
 - 법인명(`corpNm`) 기준 후보 목록: 대표자·설립일·업종 등 upstream 필드 원문
 - 사업자번호 교차검증: 응답 item에 `bzno`가 있으면 입력 사업자번호와 정확 일치하는 후보를 분리한다 (`bzno`가 없으면 교차검증 불가 사실을 그대로 표기)
@@ -33,12 +33,12 @@ metadata:
 
 - 인터넷 연결, `python3`
 - `scripts/fsc_corporate_info.py` helper
-- hosted/self-host proxy의 `/v1/fsc/corp-outline` route 접근 가능
+- Lily Box proxy의 `/v1/fsc/corp-outline` route 접근 가능
 
 ## Credential requirements
 
-- 사용자 측 필수 시크릿 없음.
-- `LILY_BOX_PROXY_BASE_URL` — self-host 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy 사용.
+- 사용자 측 upstream API 시크릿 없음.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 - `DATA_GO_KR_API_KEY` 는 프록시 운영 서버 환경에만 둔다. 공공데이터포털에서 `금융위원회_기업기본정보` 활용신청이 되어 있어야 한다.
 
 ## Inputs

@@ -11,7 +11,6 @@ import urllib.request
 from typing import Any
 
 PROXY_BASE_URL_ENV_VAR = "LILY_BOX_PROXY_BASE_URL"
-DEFAULT_PROXY_BASE_URL = "https://" + "k-" + "skill-proxy.nomadamas.org"
 BATCH_LIMIT = 100
 VALIDATE_TEXT_FIELD_LIMITS = {
     "p_nm": 30,
@@ -44,7 +43,7 @@ def resolve_proxy_base_url(explicit_base_url: str | None = None, env: dict[str, 
         raise ValueError("LILY_BOX_PROXY_BASE_URL 가 비활성화되어 있습니다.")
     if candidate and candidate != "replace-me":
         return candidate.rstrip("/")
-    return DEFAULT_PROXY_BASE_URL
+    raise ValueError("LILY_BOX_PROXY_BASE_URL 을 설정하세요. 예: http://127.0.0.1:4020")
 
 
 def normalize_business_number(value: Any) -> str:

@@ -1,0 +1,20 @@
+{
+  "name": "lily-box-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-hosted API proxy for Lily Box skills",
+  "license": "MIT",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "start:local": "set -a; [ -f ../.env.local ] && . ../.env.local; set +a; node src/server.js",
+    "test": "node --test",
+    "lint": "node --check src/*.js src/providers/*.js test/*.js"
+  },
+  "dependencies": {
+    "fastify": "^5.3.3"
+  }
+}

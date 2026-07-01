@@ -1,6 +1,6 @@
 ---
 name: korean-law-search
-description: Search Korean statutes, articles, precedents, interpretations, and local ordinances via hosted proxy. Use when the user asks for Korean law/article/precedent lookups.
+description: Search Korean statutes, articles, precedents, interpretations, and local ordinances via Lily Box proxy. Use when the user asks for Korean law/article/precedent lookups.
 license: MIT
 metadata:
   category: legal
@@ -12,9 +12,9 @@ metadata:
 
 ## What this skill does
 
-기본 hosted proxy의 `/v1/korean-law/...` 로 요청해서 한국 법령/조문/판례/유권해석/자치법규를 조회한다. 법제처(국가법령정보센터) 공식 Open API(`open.law.go.kr` 의 DRF `lawSearch.do`/`lawService.do`)를 기반으로 하며, 설계는 `chrisryugj/korean-law-mcp` 의 read-only 도구 표면을 참고했다.
+Lily Box proxy의 `/v1/korean-law/...` 로 요청해서 한국 법령/조문/판례/유권해석/자치법규를 조회한다. 법제처(국가법령정보센터) 공식 Open API(`open.law.go.kr` 의 DRF `lawSearch.do`/`lawService.do`)를 기반으로 한다.
 
-사용자는 별도 API key(`LAW_OC`)나 로컬 CLI 설치가 필요 없다. `LAW_OC` 와 브라우저 User-Agent/Referer 주입은 proxy 서버에서만 처리한다.
+`LAW_OC` 와 브라우저 User-Agent/Referer 주입은 proxy 서버에서만 처리한다.
 
 - 검색/목록: `GET /v1/korean-law/search`
 - 본문/상세: `GET /v1/korean-law/detail`
@@ -35,13 +35,13 @@ metadata:
 
 ## Prerequisites
 
-없음. 사용자는 별도 API key를 준비할 필요가 없다. upstream `LAW_OC` 는 proxy 서버에서만 주입한다.
+`LILY_BOX_PROXY_BASE_URL` 이 필요하다. upstream `LAW_OC` 는 proxy 서버에서만 주입한다.
 
 ## Default path
 
 추가 client API 레이어는 불필요하다. 그냥 프록시 서버에 HTTP 요청만 넣으면 된다.
 
-`LILY_BOX_PROXY_BASE_URL` 환경변수가 있으면 그 값을 사용하고, 없으면 helper의 기본 hosted proxy를 사용한다.
+`LILY_BOX_PROXY_BASE_URL` 환경변수 값을 사용한다.
 
 ## Supported endpoints
 
@@ -81,7 +81,7 @@ GET /v1/korean-law/detail?target={target}&ID={일련번호}
 법령명 검색:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/korean-law/search" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/korean-law/search" \
   --data-urlencode 'target=law' \
   --data-urlencode 'query=관세법'
 ```
@@ -89,7 +89,7 @@ curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFF
 판례 검색:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/korean-law/search" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/korean-law/search" \
   --data-urlencode 'target=prec' \
   --data-urlencode 'query=부당해고'
 ```
@@ -97,7 +97,7 @@ curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFF
 판례 본문 조회:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/korean-law/detail" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/korean-law/detail" \
   --data-urlencode 'target=prec' \
   --data-urlencode 'ID=228541'
 ```

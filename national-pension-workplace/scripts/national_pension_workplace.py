@@ -1,4 +1,4 @@
-"""National Pension Service workplace-coverage lookup via hosted proxy.
+"""National Pension Service workplace-coverage lookup via the Lily Box proxy.
 
 The proxy holds DATA_GO_KR_API_KEY server-side; this helper only builds the
 query and reads the structured response. No user secret is required.
@@ -17,7 +17,6 @@ import urllib.request
 from typing import Any
 
 PROXY_BASE_URL_ENV_VAR = "LILY_BOX_PROXY_BASE_URL"
-DEFAULT_PROXY_BASE_URL = "https://" + "k-" + "skill-proxy.nomadamas.org"
 ROUTE = "/v1/national-pension/workplace"
 
 
@@ -41,7 +40,7 @@ def resolve_proxy_base_url(explicit: str | None = None, env: dict[str, str] | No
         raise ValueError("LILY_BOX_PROXY_BASE_URL 가 비활성화되어 있습니다.")
     if candidate and candidate != "replace-me":
         return candidate.rstrip("/")
-    return DEFAULT_PROXY_BASE_URL
+    raise ValueError("LILY_BOX_PROXY_BASE_URL 을 설정하세요. 예: http://127.0.0.1:4020")
 
 
 def read_json_response(request: urllib.request.Request) -> dict[str, Any]:
@@ -87,7 +86,7 @@ def query_workplace(name: str, b_no: str | None = None, *, base_url: str | None 
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="국민연금 가입 사업장 내역 조회 (hosted proxy 경유)")
+    parser = argparse.ArgumentParser(description="국민연금 가입 사업장 내역 조회 (Lily Box proxy 경유)")
     parser.add_argument("--name", required=True, help="사업장명(상호) — 필수")
     parser.add_argument("--b-no", help="사업자등록번호(앞 6자리만 prefix 필터로 사용)")
     parser.add_argument("--proxy-base-url")

@@ -1,6 +1,6 @@
 ---
 name: national-pension-workplace
-description: 국민연금공단 국민연금 가입 사업장 내역을 공공데이터포털 API(hosted proxy 경유)로 조회한다. 사업장명으로 가입자수·당월 고지금액·월별 취득/상실 추이를 확인해 그 회사의 직원 규모와 변화를 본다.
+description: 국민연금공단 국민연금 가입 사업장 내역을 공공데이터포털 API(Lily Box proxy 경유)로 조회한다. 사업장명으로 가입자수·당월 고지금액·월별 취득/상실 추이를 확인해 그 회사의 직원 규모와 변화를 본다.
 license: MIT
 metadata:
   category: business
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-공공데이터포털의 **국민연금공단_국민연금 가입 사업장 내역 서비스**(data.go.kr 3046071, V2)를 hosted proxy 경유로 호출해 다음을 조회한다.
+공공데이터포털의 **국민연금공단_국민연금 가입 사업장 내역 서비스**(data.go.kr 3046071, V2)를 Lily Box proxy 경유로 호출해 다음을 조회한다.
 
 - 가입 사업장 후보: 사업장명 + 사업자번호 앞 6자리로 매칭된 사업장 목록 (자료생성년월별 중복은 사업장당 최신 월로 정리)
 - 단일 사업장이 특정되면 상세: 가입자수(`jnngpCnt`), 당월 고지금액(`crrmmNtcAmt`), 신규취득/상실 인원
@@ -35,12 +35,12 @@ metadata:
 
 - 인터넷 연결, `python3`
 - `scripts/national_pension_workplace.py` helper
-- hosted/self-host proxy의 `/v1/national-pension/workplace` route 접근 가능
+- Lily Box proxy의 `/v1/national-pension/workplace` route 접근 가능
 
 ## Credential requirements
 
-- 사용자 측 필수 시크릿 없음.
-- `LILY_BOX_PROXY_BASE_URL` — self-host 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy 사용.
+- 사용자 측 upstream API 시크릿 없음.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 - `DATA_GO_KR_API_KEY` 는 프록시 운영 서버 환경에만 둔다. 공공데이터포털에서 `국민연금공단_국민연금 가입 사업장 내역` 활용신청이 되어 있어야 한다.
 
 ## Inputs

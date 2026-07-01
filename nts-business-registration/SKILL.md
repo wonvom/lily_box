@@ -1,6 +1,6 @@
 ---
 name: nts-business-registration
-description: 국세청 사업자등록정보 진위확인 및 사업자등록 상태조회를 공공데이터포털 API(hosted proxy 경유)로 수행한다.
+description: 국세청 사업자등록정보 진위확인 및 사업자등록 상태조회를 공공데이터포털 API(Lily Box proxy 경유)로 수행한다.
 license: MIT
 metadata:
   category: business
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-공공데이터포털의 **국세청_사업자등록정보 진위확인 및 상태조회 서비스**를 hosted proxy 경유로 호출해 다음을 확인한다.
+공공데이터포털의 **국세청_사업자등록정보 진위확인 및 상태조회 서비스**를 Lily Box proxy 경유로 호출해 다음을 확인한다.
 
 - `status`: 사업자등록번호 기준 상태조회 (`계속사업자`, `휴업자`, `폐업자`, 과세유형 등 upstream 응답 그대로 포함)
 - `validate`: 사업자등록번호 + 개업일자 + 대표자명(및 선택 필드) 기준 진위확인
@@ -29,20 +29,20 @@ metadata:
 - 인터넷 연결
 - `python3`
 - 설치된 skill payload 안에 `scripts/nts_business_registration.py` helper 포함
-- hosted/self-host proxy의 `/v1/nts-business/status`, `/v1/nts-business/validate` route 접근 가능
+- Lily Box proxy의 `/v1/nts-business/status`, `/v1/nts-business/validate` route 접근 가능
 
 ## Credential requirements
 
-- 사용자 측 필수 시크릿 없음.
-- `LILY_BOX_PROXY_BASE_URL` — self-host·별도 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy를 사용한다.
+- 사용자 측 upstream API 시크릿 없음.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 - `DATA_GO_KR_API_KEY` 는 프록시 운영 서버 환경에만 둔다. 공공데이터포털에서 `국세청_사업자등록정보 진위확인 및 상태조회 서비스` 활용신청이 되어 있어야 한다.
 
 ## Validate privacy boundary
 
-- `validate`는 대표자명(`p_nm`), 개업일자(`start_dt`), 주소·상호 같은 선택 메타데이터를 hosted proxy와 공공데이터포털 upstream으로 전송한다.
-- hosted proxy는 `validate` 성공 응답을 캐시하지 않고, 프록시 `query` echo를 붙이지 않으며, upstream이 요청값을 되돌려도 민감 입력 필드를 응답에서 제거한다.
+- `validate`는 대표자명(`p_nm`), 개업일자(`start_dt`), 주소·상호 같은 선택 메타데이터를 Lily Box proxy와 공공데이터포털 upstream으로 전송한다.
+- Lily Box proxy는 `validate` 성공 응답을 캐시하지 않고, 프록시 `query` echo를 붙이지 않으며, upstream이 요청값을 되돌려도 민감 입력 필드를 응답에서 제거한다.
 - 프록시의 기본 Fastify request logging은 꺼져 있다. 운영자가 별도 로그를 켠 self-host 환경에서는 요청 본문 로깅 정책을 직접 점검해야 한다.
-- hosted proxy 경유가 부담스러운 진위확인 업무는 `LILY_BOX_PROXY_BASE_URL`로 직접 운영하는 self-host proxy를 지정한다.
+- 운영자는 요청 본문 로깅을 켜지 않도록 proxy 배포 환경을 점검한다.
 
 ## Official surfaces
 

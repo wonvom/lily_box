@@ -38,10 +38,18 @@ EXPECTED_SKILLS = {
 
 BANNED_BRAND = "k-" + "skill"
 SOURCE_CLONE_DIR = BANNED_BRAND
+BANNED_MARKERS = (
+    BANNED_BRAND.casefold(),
+    ("K" + "SKILL").casefold(),
+    ("nom" + "adamas").casefold(),
+    ("skill" + "-proxy").casefold(),
+    ("https://k" + "-").casefold(),
+)
 
 EXCLUDED_SCAN_DIRS = {
     ".git",
     "__pycache__",
+    "node_modules",
     SOURCE_CLONE_DIR,
 }
 
@@ -50,6 +58,7 @@ TEXT_SUFFIXES = {
     ".py",
     ".sh",
     ".json",
+    ".js",
     ".yaml",
     ".yml",
     ".txt",
@@ -76,11 +85,13 @@ class BundleIntegrityTest(unittest.TestCase):
                 continue
             if any(part in EXCLUDED_SCAN_DIRS for part in path.relative_to(ROOT).parts):
                 continue
-            if path.suffix not in TEXT_SUFFIXES and path.name not in {".gitignore"}:
+            if path.suffix not in TEXT_SUFFIXES and path.name not in {".gitignore", ".env.example"}:
                 continue
             text = path.read_text(encoding="utf-8", errors="ignore")
-            if BANNED_BRAND in text:
-                offenders.append(str(path.relative_to(ROOT)))
+            folded = text.casefold()
+            for marker in BANNED_MARKERS:
+                if marker in folded:
+                    offenders.append(f"{path.relative_to(ROOT)}: {marker}")
         self.assertEqual([], offenders)
 
     def test_gitignore_excludes_upstream_source_clone(self):

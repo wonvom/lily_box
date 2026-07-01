@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """K-Startup (data.go.kr 15125364) CLI helper for the kstartup-search skill.
 
-조회 전용. 일반 호출은 hosted proxy 경유, `--direct` 는 사용자 API 키로 직접 호출.
+조회 전용. 일반 호출은 Lily Box proxy 경유, `--direct` 는 사용자 API 키로 직접 호출.
 stdlib only (urllib, json, argparse, ssl).
 """
 from __future__ import annotations
@@ -17,7 +17,6 @@ import urllib.parse
 import urllib.request
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-DEFAULT_PROXY_BASE_URL = "https://" + "k-" + "skill-proxy.nomadamas.org"
 KSTARTUP_UPSTREAM_BASE_URL = "https://apis.data.go.kr/B552735/kisedKstartupService01"
 DEFAULT_SECRETS_PATH = os.path.expanduser("~/.config/lily-box/secrets.env")
 
@@ -188,7 +187,7 @@ def encode_query(query: Dict[str, Any]) -> str:
     return urllib.parse.urlencode(pairs, doseq=False, safe="")
 
 
-def build_url(operation: str, query: Dict[str, Any], *, direct: bool, api_key: Optional[str], proxy_base_url: str) -> str:
+def build_url(operation: str, query: Dict[str, Any], *, direct: bool, api_key: Optional[str], proxy_base_url: Optional[str]) -> str:
     if direct:
         if not api_key:
             raise HelperError(
@@ -199,6 +198,8 @@ def build_url(operation: str, query: Dict[str, Any], *, direct: bool, api_key: O
         with_key = dict(query)
         with_key["ServiceKey"] = api_key
         return f"{KSTARTUP_UPSTREAM_BASE_URL}/{path}?{encode_query(with_key)}"
+    if not proxy_base_url or proxy_base_url.strip() == "replace-me":
+        raise HelperError("LILY_BOX_PROXY_BASE_URL 이 필요합니다. 예: http://127.0.0.1:4020")
     base = proxy_base_url.rstrip("/")
     return f"{base}/v1/kstartup/{operation}?{encode_query(query)}"
 
@@ -338,7 +339,7 @@ def make_parser() -> argparse.ArgumentParser:
         sub.add_argument("--dry-run", action="store_true", dest="dry_run",
                          help="요청 URL/파라미터만 출력, 네트워크 호출 없음")
         sub.add_argument("--timeout", type=int, default=30)
-        sub.add_argument("--proxy-base-url", default=os.environ.get("LILY_BOX_PROXY_BASE_URL", DEFAULT_PROXY_BASE_URL))
+        sub.add_argument("--proxy-base-url", default=os.environ.get("LILY_BOX_PROXY_BASE_URL"))
         sub.add_argument("--direct", action="store_true",
                          help="proxy 우회, LILY_BOX_KSTARTUP_API_KEY 로 직접 호출")
         sub.add_argument("--secrets-path", default=DEFAULT_SECRETS_PATH,

@@ -1,6 +1,6 @@
 ---
 name: naver-news-search
-description: 네이버 검색 Open API 뉴스 검색(news.json)을 hosted proxy 경유로 조회해 최신 뉴스 기사 제목·발행시각·링크·요약을 보수적으로 정리한다. 사용자는 별도 API 키 발급 없이 호출한다.
+description: 네이버 검색 Open API 뉴스 검색(news.json)을 Lily Box proxy 경유로 조회해 최신 뉴스 기사 제목·발행시각·링크·요약을 보수적으로 정리한다.
 license: MIT
 metadata:
   category: information
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-hosted proxy가 네이버 검색 Open API 뉴스 검색(`openapi.naver.com/v1/search/news.json`)을 호출해 최근 뉴스 기사 후보를 정규화된 JSON 으로 돌려준다.
+Lily Box proxy가 네이버 검색 Open API 뉴스 검색(`openapi.naver.com/v1/search/news.json`)을 호출해 최근 뉴스 기사 후보를 정규화된 JSON 으로 돌려준다.
 
 - 검색어 기반 최신 뉴스 후보 목록을 정리한다.
 - 기사 제목, 본문 요약(description), 발행 시각(`pub_date`/`pub_date_iso`), 네이버 뉴스 링크(`link`), 원문 링크(`original_link`)를 제공한다.
@@ -45,10 +45,10 @@ hosted proxy가 네이버 검색 Open API 뉴스 검색(`openapi.naver.com/v1/se
 
 ## Proxy endpoint
 
-기본값은 public/read-only/no-auth 프록시다. 사용자는 **네이버 개발자 센터 Client ID/Secret 을 발급받지 않아도 된다**. upstream key(`NAVER_SEARCH_CLIENT_ID` / `NAVER_SEARCH_CLIENT_SECRET`)는 프록시 서버에서만 주입한다.
+`LILY_BOX_PROXY_BASE_URL` 이 필요하다. upstream key(`NAVER_SEARCH_CLIENT_ID` / `NAVER_SEARCH_CLIENT_SECRET`)는 Lily Box proxy 서버에서만 주입한다.
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/naver-news/search" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/naver-news/search" \
   --data-urlencode 'q=삼성전자 실적' \
   --data-urlencode 'display=10' \
   --data-urlencode 'sort=date'

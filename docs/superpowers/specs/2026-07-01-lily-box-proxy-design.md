@@ -10,6 +10,7 @@ The proxy will expose only the routes needed by the selected Lily Box skills:
 
 - `GET /health`
 - `GET /v1/naver-news/search`
+- `GET /v1/naver-blog/search`
 - `GET /v1/korean-law/search`
 - `GET /v1/korean-law/detail`
 - `GET /v1/korea-weather/forecast`
@@ -78,11 +79,8 @@ Documentation will describe local execution:
 ```bash
 cd proxy
 npm install
-set -a
-source ../.env.local
-set +a
 npm test
-npm start
+npm run start:local
 ```
 
 ## Testing

@@ -1,6 +1,6 @@
 ---
 name: kstartup-search
-description: 공공데이터포털 창업진흥원 K-Startup Open API(15125364)로 통합 공고 사업 정보·지원사업 공고·창업 콘텐츠·통계보고서를 hosted proxy 경유로 조회한다. 검색 전용.
+description: 공공데이터포털 창업진흥원 K-Startup Open API(15125364)로 통합 공고 사업 정보·지원사업 공고·창업 콘텐츠·통계보고서를 Lily Box proxy 경유로 조회한다. 검색 전용.
 license: MIT
 metadata:
   category: business
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-공공데이터포털의 **창업진흥원_K-Startup(사업소개,사업공고,콘텐츠 등)_조회서비스** (`kisedKstartupService01`, dataset `15125364`)를 hosted proxy 경유로 호출해 다음 4개 endpoint를 조회한다.
+공공데이터포털의 **창업진흥원_K-Startup(사업소개,사업공고,콘텐츠 등)_조회서비스** (`kisedKstartupService01`, dataset `15125364`)를 Lily Box proxy 경유로 호출해 다음 4개 endpoint를 조회한다.
 
 - `business-info` → `getBusinessInformation01` : 통합공고 지원사업 정보 (예산, 규모, 수행기관, 사업소개)
 - `announcements` → `getAnnouncementInformation01` : 지원사업 공고 정보 (공고명, 접수기간, 지역, 신청대상, 모집진행여부 등 — **가장 활용도 높음**)
@@ -39,12 +39,12 @@ metadata:
 - 인터넷 연결
 - `python3` (stdlib only)
 - 설치된 스킬 안의 `scripts/run_kstartup.py`
-- hosted/self-host proxy의 `/v1/kstartup/*` 라우트 접근 가능 (4개)
+- Lily Box proxy의 `/v1/kstartup/*` 라우트 접근 가능 (4개)
 
 ## Credential requirements
 
-- 사용자 측 필수 시크릿 없음.
-- `LILY_BOX_PROXY_BASE_URL` — self-host·별도 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy.
+- 사용자 측 upstream API 시크릿 없음.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 - `LILY_BOX_KSTARTUP_API_KEY` — `--direct`로 K-Startup을 직접 호출할 때만 필요. 공공데이터포털에서 `창업진흥원_K-Startup(사업소개,사업공고, 콘텐츠 등)_조회서비스` (`15125364`) 활용신청이 본인 계정으로 승인돼 있어야 한다(자동승인, 무료).
 - 프록시 운영자는 `DATA_GO_KR_API_KEY` 환경변수에 같은 조건의 키를 두고 활용신청을 추가해 둔다.
 
@@ -68,7 +68,7 @@ metadata:
 - `--text` 사람용 요약 / `--json` 구조화 결과(기본)
 - `--dry-run` 인증키 없이 요청 URL/파라미터만 출력
 - `--timeout N` HTTP 타임아웃 초 (기본 30)
-- `--proxy-base-url URL` 기본 hosted proxy 대신 self-host/alternate proxy
+- `--proxy-base-url URL` Lily Box proxy base URL
 - `--direct` proxy 우회, `LILY_BOX_KSTARTUP_API_KEY`로 직접 호출
 
 서브커맨드별 필터:
@@ -98,7 +98,7 @@ metadata:
 
 ### 1. Ensure proxy access is available
 
-일반 조회는 기본 hosted proxy를 사용하므로 사용자 K-Startup 키가 필요 없다. self-host를 쓰면 `LILY_BOX_PROXY_BASE_URL`을 설정한다. `--direct`가 필요할 때만 `LILY_BOX_KSTARTUP_API_KEY`를 credential resolution order에 따라 확보한다.
+일반 조회는 Lily Box proxy를 사용하므로 사용자 K-Startup 키가 필요 없다. `--direct`가 필요할 때만 `LILY_BOX_KSTARTUP_API_KEY`를 credential resolution order에 따라 확보한다.
 
 ### 2. Pick the right operation
 
@@ -188,7 +188,7 @@ K-Startup 인증키 없이도 다음 검증이 가능하다.
 - `node --test proxy server/test/server.test.js` (K-Startup 라우트 5개 신규 케이스 포함)
 - `npm run ci`
 
-라이브 스모크는 hosted proxy 환경에 `DATA_GO_KR_API_KEY` 가 설정되고 `15125364` 활용신청이 승인된 뒤에 수행한다.
+라이브 스모크는 Lily Box proxy 환경에 `DATA_GO_KR_API_KEY` 가 설정되고 `15125364` 활용신청이 승인된 뒤에 수행한다.
 
 ## Safety notes
 

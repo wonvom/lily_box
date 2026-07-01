@@ -1,4 +1,4 @@
-"""FSC corporate-outline lookup via hosted proxy.
+"""FSC corporate-outline lookup via the Lily Box proxy.
 
 The proxy holds DATA_GO_KR_API_KEY server-side; this helper only builds the
 query and reads the structured response. No user secret is required.
@@ -17,7 +17,6 @@ import urllib.request
 from typing import Any
 
 PROXY_BASE_URL_ENV_VAR = "LILY_BOX_PROXY_BASE_URL"
-DEFAULT_PROXY_BASE_URL = "https://" + "k-" + "skill-proxy.nomadamas.org"
 ROUTE = "/v1/fsc/corp-outline"
 
 
@@ -41,7 +40,7 @@ def resolve_proxy_base_url(explicit: str | None = None, env: dict[str, str] | No
         raise ValueError("LILY_BOX_PROXY_BASE_URL 가 비활성화되어 있습니다.")
     if candidate and candidate != "replace-me":
         return candidate.rstrip("/")
-    return DEFAULT_PROXY_BASE_URL
+    raise ValueError("LILY_BOX_PROXY_BASE_URL 을 설정하세요. 예: http://127.0.0.1:4020")
 
 
 def read_json_response(request: urllib.request.Request) -> dict[str, Any]:
@@ -87,7 +86,7 @@ def query_corp_outline(name: str, b_no: str | None = None, *, base_url: str | No
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="금융위 기업기본정보(법인 개요) 조회 (hosted proxy 경유)")
+    parser = argparse.ArgumentParser(description="금융위 기업기본정보(법인 개요) 조회 (Lily Box proxy 경유)")
     parser.add_argument("--name", required=True, help="법인명(corpNm) — 필수")
     parser.add_argument("--b-no", help="사업자등록번호 — 응답에 bzno가 있을 때 교차검증에만 사용")
     parser.add_argument("--proxy-base-url")

@@ -40,12 +40,12 @@ metadata:
 
 - 인터넷 연결, `python3`
 - 같은 레포의 단품 스킬 6종(이 복합이 helper를 재사용)
-- proxy 섹션을 켜려면 hosted/self-host proxy 접근 가능
+- proxy 섹션을 켜려면 Lily Box proxy 접근 가능
 
 ## Credential requirements
 
 - 사용자 측 필수 시크릿 없음.
-- proxy 섹션(국세청 상태·국민연금·금융위·부정당)은 운영 서버의 `DATA_GO_KR_API_KEY`로 동작한다. 활용신청 항목은 각 단품 스킬 문서를 따른다.
+- proxy 섹션(국세청 상태·국민연금·금융위·부정당)은 Lily Box proxy 서버의 `DATA_GO_KR_API_KEY`로 동작한다. 활용신청 항목은 각 단품 스킬 문서를 따른다.
 - 무인증 섹션(체납·인허가)은 키 없이 사용자 머신에서 직접 동작한다.
 
 ## Inputs

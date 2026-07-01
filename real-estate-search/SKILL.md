@@ -1,6 +1,6 @@
 ---
 name: real-estate-search
-description: Korean apartment/officetel/villa/single-house real transaction price and rent lookups via hosted proxy. Based on tae0y's real-estate-mcp and MOLIT public data APIs.
+description: Korean apartment/officetel/villa/single-house real transaction price and rent lookups via Lily Box proxy. Based on MOLIT public data APIs.
 license: MIT
 metadata:
   category: real-estate
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-기본 hosted proxy의 `/v1/real-estate/...` 로 요청해서 한국 부동산 실거래가/전월세 데이터를 조회한다. 국토교통부(MOLIT) 실거래가 신고 데이터를 기반으로 한다.
+Lily Box proxy의 `/v1/real-estate/...` 로 요청해서 한국 부동산 실거래가/전월세 데이터를 조회한다. 국토교통부(MOLIT) 실거래가 신고 데이터를 기반으로 한다.
 
 ## When to use
 
@@ -38,13 +38,13 @@ metadata:
 
 ## Prerequisites
 
-없음. 사용자는 별도 API key를 준비할 필요가 없다. upstream key는 proxy 서버에서만 주입한다.
+`LILY_BOX_PROXY_BASE_URL` 이 필요하다. upstream key는 proxy 서버에서만 주입한다.
 
 ## Default path
 
 추가 client API 레이어는 불필요하다. 그냥 프록시 서버에 HTTP 요청만 넣으면 된다.
 
-`LILY_BOX_PROXY_BASE_URL` 환경변수가 있으면 그 값을 사용하고, 없으면 helper의 기본 hosted proxy를 사용한다.
+`LILY_BOX_PROXY_BASE_URL` 환경변수 값을 사용한다.
 
 ## Supported endpoints
 
@@ -79,14 +79,14 @@ GET /v1/real-estate/:assetType/:dealType?lawd_cd={코드}&deal_ymd={년월}
 지역코드 조회:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/real-estate/region-code" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/real-estate/region-code" \
   --data-urlencode 'q=강남구'
 ```
 
 아파트 매매 실거래가 조회:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/real-estate/apartment/trade" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/real-estate/apartment/trade" \
   --data-urlencode 'lawd_cd=11680' \
   --data-urlencode 'deal_ymd=202403'
 ```
@@ -94,7 +94,7 @@ curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFF
 오피스텔 전월세 조회:
 
 ```bash
-curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}/v1/real-estate/officetel/rent" \
+curl -fsS --get "$LILY_BOX_PROXY_BASE_URL/v1/real-estate/officetel/rent" \
   --data-urlencode 'lawd_cd=11680' \
   --data-urlencode 'deal_ymd=202403'
 ```
@@ -109,7 +109,7 @@ curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFF
     { "lawd_cd": "11680", "name": "서울특별시 강남구" }
   ],
   "query": "강남구",
-  "proxy": { "name": "hosted proxy", "cache": { "hit": false, "ttl_ms": 300000 } }
+  "proxy": { "name": "lily-box-proxy", "cache": { "hit": false, "ttl_ms": 300000 } }
 }
 ```
 
@@ -136,7 +136,7 @@ curl -fsS --get "${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFF
     "sample_count": 42
   },
   "query": { "asset_type": "apartment", "deal_type": "trade", "lawd_cd": "11680", "deal_ymd": "202403" },
-  "proxy": { "name": "hosted proxy", "cache": { "hit": false, "ttl_ms": 300000 } }
+  "proxy": { "name": "lily-box-proxy", "cache": { "hit": false, "ttl_ms": 300000 } }
 }
 ```
 

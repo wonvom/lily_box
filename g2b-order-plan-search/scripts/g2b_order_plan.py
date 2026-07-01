@@ -1,6 +1,6 @@
-"""나라장터 발주계획현황 조회 via hosted proxy.
+"""나라장터 발주계획현황 조회 via the Lily Box proxy.
 
-The helper calls hosted proxy /v1/g2b/order-plans so DATA_GO_KR_API_KEY stays
+The helper calls Lily Box proxy /v1/g2b/order-plans so DATA_GO_KR_API_KEY stays
 server-side. It is read-only and does not automate g2b.go.kr login flows.
 """
 
@@ -17,7 +17,6 @@ from collections.abc import Mapping
 from typing import Any
 
 PROXY_BASE_URL_ENV_VAR = "LILY_BOX_PROXY_BASE_URL"
-DEFAULT_PROXY_BASE_URL = "https://" + "k-" + "skill-proxy.nomadamas.org"
 ROUTE = "/v1/g2b/order-plans"
 USER_AGENT = "lily-box-g2b-order-plan-search/0.1 (+https://github.com/wonvom/lily_box)"
 
@@ -43,7 +42,7 @@ def resolve_proxy_base_url(explicit: str | None = None, env: Mapping[str, str] |
         if parsed.scheme not in {"http", "https"} or not parsed.netloc:
             raise ValueError(f"{PROXY_BASE_URL_ENV_VAR} must be an http(s) URL")
         return raw.rstrip("/")
-    return DEFAULT_PROXY_BASE_URL
+    raise ValueError(f"{PROXY_BASE_URL_ENV_VAR} is required. Example: http://127.0.0.1:4020")
 
 
 def _normalize_month(value: str | None, label: str) -> str | None:
@@ -119,7 +118,7 @@ def search_order_plans(query: dict[str, str], *, base_url: str | None = None,
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="나라장터 발주계획현황 조회 (hosted proxy 경유)")
+    parser = argparse.ArgumentParser(description="나라장터 발주계획현황 조회 (Lily Box proxy 경유)")
     parser.add_argument("--kind", default="goods", help="goods/물품, construction/공사, service/용역, foreign/외자, all/전체")
     parser.add_argument("--keyword", "-q", help="사업명 검색어(bizNm)")
     parser.add_argument("--order-from", help="발주시작년월 YYYY-MM 또는 YYYYMM")

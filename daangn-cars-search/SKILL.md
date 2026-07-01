@@ -14,7 +14,7 @@ metadata:
 
 당근중고차 공개 Remix `_data` JSON route를 사용해 차량 목록과 상세 정보를 읽기 전용으로 조회한다.
 
-최종 사용자는 자연어로 요청해도 되고, 필요하면 아래의 Python helper를 직접 실행한다. 외부 패키지나 hosted proxy 없이 Python 표준 라이브러리만 사용한다.
+최종 사용자는 자연어로 요청해도 되고, 필요하면 아래의 Python helper를 직접 실행한다. 외부 패키지나 프록시 없이 Python 표준 라이브러리만 사용한다.
 
 ## When to use
 

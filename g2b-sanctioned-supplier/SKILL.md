@@ -1,6 +1,6 @@
 ---
 name: g2b-sanctioned-supplier
-description: 조달청 나라장터 부정당제재업체정보를 공공데이터포털 API(hosted proxy 경유)로 조회한다. 사업자등록번호 정확 일치로 조회시점 현재 유효한 입찰참가자격 제한(부정당제재)의 기간·제재기관·근거법률을 확인한다.
+description: 조달청 나라장터 부정당제재업체정보를 공공데이터포털 API(Lily Box proxy 경유)로 조회한다. 사업자등록번호 정확 일치로 조회시점 현재 유효한 입찰참가자격 제한(부정당제재)의 기간·제재기관·근거법률을 확인한다.
 license: MIT
 metadata:
   category: business
@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-공공데이터포털의 **조달청 나라장터 사용자정보 서비스**(data.go.kr 15129466, `getUnptRsttCorpInfo02`)를 hosted proxy 경유로 호출해, 사업자등록번호 정확 일치(`inqryDiv=1`)로 **조회시점 현재 유효한** 부정당제재를 조회한다.
+공공데이터포털의 **조달청 나라장터 사용자정보 서비스**(data.go.kr 15129466, `getUnptRsttCorpInfo02`)를 Lily Box proxy 경유로 호출해, 사업자등록번호 정확 일치(`inqryDiv=1`)로 **조회시점 현재 유효한** 부정당제재를 조회한다.
 
 - 반환: 제재 시작/종료일자, 제재기관명, 계약법구분, 제재근거법률 등 upstream 필드 원문
 
@@ -38,12 +38,12 @@ upstream 명세상 다음은 **제공되지 않는다** — 과거 이력 조회
 
 - 인터넷 연결, `python3`
 - `scripts/g2b_sanctioned_supplier.py` helper
-- hosted/self-host proxy의 `/v1/g2b/sanctioned-supplier` route 접근 가능
+- Lily Box proxy의 `/v1/g2b/sanctioned-supplier` route 접근 가능
 
 ## Credential requirements
 
 - 사용자 측 필수 시크릿 없음.
-- `LILY_BOX_PROXY_BASE_URL` — self-host 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy 사용.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 - `DATA_GO_KR_API_KEY` 는 프록시 운영 서버 환경에만 둔다. 공공데이터포털에서 `조달청_나라장터 사용자정보 서비스`(부정당제재업체정보조회 포함) 활용신청이 되어 있어야 한다.
 
 ## Inputs

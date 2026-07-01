@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-서울 열린데이터 광장의 실시간 지하철 도착정보 Open API를 hosted proxy 경유로 조회해 역 기준 도착 예정 열차 정보를 요약한다.
+서울 열린데이터 광장의 실시간 지하철 도착정보 Open API를 Lily Box proxy 경유로 조회해 역 기준 도착 예정 열차 정보를 요약한다.
 
 ## When to use
 
@@ -23,19 +23,19 @@ metadata:
 ## Prerequisites
 
 - optional: `jq`
-- optional: `LILY_BOX_PROXY_BASE_URL` (self-host·별도 프록시를 쓸 때만 설정. 비우면 기본 hosted proxy를 사용한다.)
+- required: `LILY_BOX_PROXY_BASE_URL`
 
 ## Required environment variables
 
-- 없음. `LILY_BOX_PROXY_BASE_URL` 은 선택 사항이며, 비우면 기본 hosted proxy를 사용한다.
+- `LILY_BOX_PROXY_BASE_URL` — Lily Box proxy base URL.
 
-사용자가 개인 서울 열린데이터 광장 OpenAPI key를 직접 발급할 필요는 없다. `/v1/seoul-subway/arrival` route는 기본 hosted proxy에서 호출하고, upstream key는 proxy 서버 쪽에만 보관한다. 별도 proxy를 쓰는 경우에만 `LILY_BOX_PROXY_BASE_URL` 을 설정한다.
+서울 열린데이터 광장 OpenAPI key는 Lily Box proxy 서버 쪽에만 보관한다. 클라이언트/사용자 쪽에서 upstream key를 직접 다루지 않는다.
 
 ### Proxy resolution order
 
-1. **`LILY_BOX_PROXY_BASE_URL` 이 있으면** 그 값을 사용한다.
-2. **없거나 빈 값이면** 기본 hosted proxy를 사용한다.
-3. **직접 proxy를 운영하는 경우에만** proxy 서버 upstream key를 서버 쪽에만 설정한다.
+1. **`LILY_BOX_PROXY_BASE_URL` 값을 확인한다.**
+2. **없거나 빈 값이면 먼저 proxy를 실행하거나 배포 URL을 설정한다.**
+3. **upstream key는 proxy 서버 쪽에만 설정한다.**
 
 클라이언트/사용자 쪽에서 upstream key를 직접 다루지 않는다.
 
@@ -48,14 +48,14 @@ metadata:
 
 ### 1. Resolve the proxy base URL
 
-`LILY_BOX_PROXY_BASE_URL` 이 있으면 그 값을 사용하고, 없거나 비어 있으면 기본 hosted proxy를 사용한다.
+`LILY_BOX_PROXY_BASE_URL` 값을 사용한다.
 
 ### 2. Query the official station arrival endpoint
 
 proxy는 서울 실시간 지하철 API key를 서버에서 주입하고, 역명 기준 실시간 도착정보만 공개 read-only endpoint로 노출한다.
 
 ```bash
-BASE="${LILY_BOX_PROXY_BASE_URL:-https://k-${LILY_BOX_PROXY_HOST_SUFFIX:-skill-proxy.nomadamas.org}}"
+BASE="$LILY_BOX_PROXY_BASE_URL"
 curl -fsS --get "${BASE}/v1/seoul-subway/arrival" \
   --data-urlencode 'stationName=강남'
 ```

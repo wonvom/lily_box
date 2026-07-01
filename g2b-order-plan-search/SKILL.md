@@ -12,7 +12,7 @@ metadata:
 
 ## What this skill does
 
-`g2b-order-plan-search`는 공공데이터포털의 **조달청_나라장터 발주계획현황서비스**(data.go.kr 15129462, `OrderPlanSttusService`)를 hosted proxy 경유로 호출해 나라장터에 등록된 발주계획 목록을 조회한다.
+`g2b-order-plan-search`는 공공데이터포털의 **조달청_나라장터 발주계획현황서비스**(data.go.kr 15129462, `OrderPlanSttusService`)를 Lily Box proxy 경유로 호출해 나라장터에 등록된 발주계획 목록을 조회한다.
 
 - 대상 업무: 물품, 공사, 용역, 외자
 - 검색 조건: 발주년월 범위, 게시일시 범위, 발주기관명/코드, 사업명 키워드, 조달방식, 기관소재지, 세부품명번호, 업무유형, 공종 등
@@ -22,7 +22,7 @@ metadata:
 
 ## Public access path discovered
 
-### Primary source: 공공데이터포털 API through hosted proxy
+### Primary source: 공공데이터포털 API through Lily Box proxy
 
 - data.go.kr dataset: <https://www.data.go.kr/data/15129462/openapi.do>
 - upstream base: `https://apis.data.go.kr/1230000/ao/OrderPlanSttusService`
@@ -51,10 +51,10 @@ The API is a free data.go.kr service that requires an application key, so it fol
 ## Prerequisites
 
 - 인터넷 연결, `python3`
-- hosted/self-host proxy의 `/v1/g2b/order-plans` route 접근 가능
+- Lily Box proxy의 `/v1/g2b/order-plans` route 접근 가능
 - proxy 운영 서버의 `DATA_GO_KR_API_KEY`가 data.go.kr 15129462에 활용신청되어 있어야 함
 
-사용자 측 필수 시크릿은 없다. Self-host proxy를 쓸 때만 `LILY_BOX_PROXY_BASE_URL`을 설정한다.
+사용자 측 upstream API 시크릿은 없다. `LILY_BOX_PROXY_BASE_URL`을 설정한다.
 
 ## Inputs
 

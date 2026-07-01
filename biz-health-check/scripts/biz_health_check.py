@@ -6,10 +6,10 @@
 
 이 복합 스킬은 같은 레포의 단품 스킬 helper들을 그대로 재사용한다(단일 진실원천):
 
-- nts-business-registration   상태조회        (hosted proxy)
-- national-pension-workplace  국민연금 사업장  (hosted proxy)
-- fsc-corporate-info          금융위 법인개요  (hosted proxy)
-- g2b-sanctioned-supplier     부정당제재       (hosted proxy)
+- nts-business-registration   상태조회        (Lily Box proxy)
+- national-pension-workplace  국민연금 사업장  (Lily Box proxy)
+- fsc-corporate-info          금융위 법인개요  (Lily Box proxy)
+- g2b-sanctioned-supplier     부정당제재       (Lily Box proxy)
 - nts-tax-delinquency         체납 명단        (무인증 직접)
 - localdata-business-status   인허가 영업상태  (무인증 직접, --region 필요)
 
